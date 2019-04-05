@@ -1,0 +1,20 @@
+{
+    "name": "Itourism",
+    "alias": "itourism",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\Itourism\\Providers\\ItourismServiceProvider",
+        "Modules\\Itourism\\Providers\\RouteServiceProvider",
+        "Modules\\Itourism\\Providers\\EventServiceProvider"
+
+    ],
+    "aliases": {},
+    "files": [
+      "helpers.php"
+
+    ],
+    "requires": []
+}
