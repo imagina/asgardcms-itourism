@@ -3,6 +3,7 @@ namespace Modules\Itourism\Events\Handlers;
 
 use Modules\Itourism\Events\PlanWasUpdated;
 use Modules\Itourism\Repositories\PlanRepository;
+use Illuminate\Support\Facades\Storage;
 
 
 class UpdatePlanImage
@@ -15,7 +16,7 @@ class UpdatePlanImage
     public function handle(PlanWasUpdated $event)
     {
         $id = $event->entity->id;
-
+        $options=(array)$event->data['options'];
         if (!empty($event->data['mainimage'])) {
             $mainimage = saveImage($event->data['mainimage'], "assets/itourism/plan/" . $id . ".jpg");
             if(isset($event->data['options'])){
@@ -24,12 +25,21 @@ class UpdatePlanImage
                 $options = array();
             }
             $options["mainimage"] = $mainimage;
-            $event->data['options'] = json_encode($options);
         }else{
             $options["mainimage"] = null;
-            $event->data['options'] = json_encode($options);
         }
+        if($event->data['maindocument']){
+          $p=Storage::disk('publicmedia')->put("assets/itourism/plan/" . $id . ".pdf", \File::get($event->data['maindocument']));
+          if($p){
+            $p="assets/itourism/plan/" . $id . ".pdf";
+          }else{
+            $p=null;
+          }
+          $options["document"] = $p;
+        }
+        $event->data['options'] = json_encode($options);
         unset($event->data['mainimage']);
+        unset($event->data['maindocument']);
         $update=$this->plan->update($event->entity, $event->data);
     }
 

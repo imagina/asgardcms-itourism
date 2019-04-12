@@ -12,7 +12,8 @@ class PlanPrice extends Model
       'plan_id',
       'roomtype_id',
       'persontype_id',
-      'price'
+      'price',
+      'additional_night_price'
     ];
 
     public function roomType(){

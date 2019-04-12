@@ -12,7 +12,7 @@
 @stop
 
 @section('content')
-{!! Form::open(['route' => ['admin.itourism.plan.update', $plan->id], 'method' => 'put']) !!}
+{!! Form::open(['route' => ['admin.itourism.plan.update', $plan->id], 'method' => 'put', 'enctype' => 'multipart/form-data']) !!}
 <div class="row">
   <div class="col-md-9">
     <div class="row">
@@ -61,6 +61,99 @@
           </div>
         </div>
       </div>
+      <div class="col-xs-12">
+        <div class="box box-primary">
+
+          <div class="box-header">
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                class="fa fa-minus"></i>
+              </button>
+            </div>
+            <div class="form-group">
+              <label>{{ trans('itourism::plans.gallery.title') }} </label>
+            </div>
+            <div class="box-body text-center">
+              <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">
+                {{ trans('itourism::plans.gallery.add gallery') }}
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-xs-12 ">
+        <div class="box box-primary">
+          <div class="box-header">
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                class="fa fa-minus"></i>
+              </button>
+            </div>
+            <div class="form-group">
+              <label>{{trans('itourism::plans.form.document')}}</label>
+            </div>
+            <div class="box-body text-center">
+              @if($plan->document)
+                <span class="label label-info" style="font-size:14px">Este plan ya posee un documento registrado</span>
+                <hr>
+              @endif
+              <div class="text-center">
+                <input type="file" accept="application/pdf" id="maindocument"
+                name="maindocument"
+                value=""
+                class="form-control" >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="box box-primary">
+
+          <div class="box-header">
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                class="fa fa-minus"></i>
+              </button>
+            </div>
+            <div class="form-group">
+              <label for="options[videos]"><strong>{{trans('itourism::plans.form.videos')}}</strong></label>
+            </div>
+            <div class="box-body text-center">
+              <textarea id="options" class="form-control" name="options[videos]" rows="8">{{json_decode($plan->options)->videos ?? ''}}</textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="box box-primary">
+
+          <div class="box-header">
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                class="fa fa-minus"></i>
+              </button>
+            </div>
+            <div class="form-group">
+              <label for="options[videos]"><strong>Fecha de creación</strong></label>
+            </div>
+            <div class="box-body text-center">
+
+              <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                <input type="text" name="created_at" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </div>
   <?php $rand = $plan->id;?>
@@ -107,23 +200,50 @@
 @stop
 
 @push('js-stack')
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
 <script type="text/javascript">
+
 var prices={!! $plan->roomPrice ? $plan->roomPrice : "''"  !!};
+//var created_at={!! $plan->created_at ? $plan->created_at : "''"  !!};
+//console.log(created_at);
+var created_at="{{$plan->created_at}}";
+$('#datetimepicker1').datetimepicker({
+     defaultDate: moment(created_at, 'YYYY/MM/DD HH:mm:ss'),
+     format:'YYYY/MM/DD HH:mm:ss'
+ });
+ console.log(created_at);
+function checkRepeated(roomType,personType){
+  for(var i=0;i<prices.length;i++){
+    if(prices[i].roomType==roomType && prices[i].personType==personType)
+    return true;
+  }
+
+  return false;
+}//checkRepeated()
 function createCombination(){
   var price=$('#price').val();
+  var nightPrice=$('#nightPrice').val();
   var roomType=$('#roomtype_id').val();
   var roomTypeText=$('#roomtype_id').find('option:selected').text();
   var personType=$('#persontype_id').val();
   var personTypeText=$('#persontype_id').find('option:selected').text();
-  prices.push({
-    price,
-    roomType,
-    roomTypeText,
-    personTypeText,
-    personType
-  });
-  $('#price').val(1);
-  loadBodyTable();
+  if(!checkRepeated(roomType,personType)){
+    prices.push({
+      nightPrice,
+      price,
+      roomType,
+      roomTypeText,
+      personTypeText,
+      personType
+    });
+    $('#nightPrice').val(1);
+    $('#price').val(1);
+    loadBodyTable();
+  }else
+  alert('Ya existe esta combinación.');
 }
 function deleteConfigPrice(position){
   prices.splice(position,1);
@@ -136,6 +256,7 @@ function loadBodyTable(){
     html+='<td>'+prices[i].roomTypeText+'</td>';
     html+='<td>'+prices[i].personTypeText+'</td>';
     html+='<td>'+prices[i].price+'</td>';
+    html+='<td>'+prices[i].nightPrice+'</td>';
     html+='<td><button type="button" class="btn btn-danger" onclick="deleteConfigPrice('+i+')"><i class="fa fa-times"></i> </button></td>';
     html+='</tr>';
   }//for

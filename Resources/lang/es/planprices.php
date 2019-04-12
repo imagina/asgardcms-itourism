@@ -17,7 +17,8 @@ return [
       'plan'=>'Plan',
       'room type'=>'Tipo de habitación',
       'person type'=>'Tipo de persona',
-      'price'=>'Precio'
+      'price'=>'Precio',
+      'aditional night price'=>'Precio Por Noche',
     ],
     'form' => [
     ],

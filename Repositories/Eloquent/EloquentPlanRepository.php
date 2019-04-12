@@ -24,4 +24,10 @@ class EloquentPlanRepository extends EloquentBaseRepository implements PlanRepos
     return $this->find($plan->id);
   }//create
 
+  public function randomOrder($exclude){
+    //$exclude = group id's of plans to $exclude
+    is_array($exclude) ? true : $exclude = [$exclude];
+    return $this->model->whereNotIn('id',$exclude)->inRandomOrder()->get();
+  }
+
 }

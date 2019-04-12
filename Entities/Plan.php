@@ -15,9 +15,14 @@ class Plan extends Model
       'metatitle',
       'metakeywords',
       'metadescription',
-      'description'
+      'description',
+      'notes',
+      'includes',
+      'notincludes',
+      'payforms'
     ];
     protected $fillable = [
+      'created_at',
       'options',
       'slug'
     ];
@@ -33,6 +38,13 @@ class Plan extends Model
     public function getMainImageAttribute(){
         return json_decode($this->options)->mainimage;
     }
+    public function getDocumentAttribute(){
+        $options=json_decode($this->options);
+        if(isset($options->document)){
+          return json_decode($this->options)->document;
+        }
+        return null;
+    }
 
     public function getUrlAttribute() {
         return \URL::route('itourism.plans.show', [$this->slug]);
@@ -41,5 +53,16 @@ class Plan extends Model
 
     public function roomPrice(){
       return $this->hasMany('Modules\Itourism\Entities\PlanPrice','plan_id');//Foreign key
+    }
+
+    public function getVideosAttribute(){
+
+        if (isset(json_decode($this->options)->videos)&&!empty(json_decode($this->options)->videos)){
+
+            $videos = explode(',',json_decode($this->options)->videos);
+
+            return $videos;
+        }
+        return null;
     }
 }

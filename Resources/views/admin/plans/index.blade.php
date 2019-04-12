@@ -30,7 +30,6 @@
             <thead>
               <tr>
                 <th>{{trans('itourism::persontypes.form.title')}}</th>
-                <th>{{trans('itourism::persontypes.form.description')}}</th>
                 <th>{{ trans('core::core.table.created at') }}</th>
                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
               </tr>
@@ -40,10 +39,7 @@
                 <?php foreach ($plans as $plan): ?>
                   <tr>
                     <td>
-                      {{$plan->title ?? $plan->translations[0]->title}}
-                    </td>
-                    <td>
-                      {{$plan->description ?? $plan->translations[0]->description}}
+                      {{$plan->title}}
                     </td>
                     <td>
                       <a href="{{ route('admin.itourism.plan.edit', [$plan->id]) }}">
@@ -63,7 +59,6 @@
             <tfoot>
               <tr>
                 <th>{{trans('itourism::persontypes.form.title')}}</th>
-                <th>{{trans('itourism::persontypes.form.description')}}</th>
                 <th>{{ trans('core::core.table.created at') }}</th>
                 <th>{{ trans('core::core.table.actions') }}</th>
               </tr>

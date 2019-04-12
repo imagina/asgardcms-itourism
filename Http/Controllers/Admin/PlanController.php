@@ -50,6 +50,10 @@ class PlanController extends AdminBaseController
   {
     $roomtypes = $this->roomtypes->all();
     $persontypes = $this->persontypes->all();
+    if(count($roomtypes)==0 || count($persontypes)==0){
+      return redirect()->back()
+      ->withError(trans('itourism::plans.validation.error some roomtype and persontype'));
+    }//if count
     return view('itourism::admin.plans.create',compact('roomtypes','persontypes'));
   }
 
@@ -62,11 +66,15 @@ class PlanController extends AdminBaseController
   public function store(CreatePlanRequest $request)
   {
     $data=$request->all();
+    if(isset($data['options']['videos']))
+      $data['options']['videos']=json_encode($data['options']['videos']);
     $data['prices']=json_decode($data['prices']);
     foreach(\LaravelLocalization::getSupportedLocales() as $locale => $language){
       $data['slug']=str_slug($data[$locale]['title'],"-");
       break;
     }
+    $file = $request->file('maindocument');
+    $data['maindocument']=$request->file('maindocument');
     $this->plan->create($data);
 
     return redirect()->route('admin.itourism.plan.index')
@@ -89,6 +97,7 @@ class PlanController extends AdminBaseController
       $roomPrice['roomType']=$roomPrice->roomType->id;
       $roomPrice['personTypeText']=$roomPrice->personType->title;
       $roomPrice['personType']=$roomPrice->personType->id;
+      $roomPrice['nightPrice']=$roomPrice->additional_night_price;
     }//foreach
     return view('itourism::admin.plans.edit', compact('plan','roomtypes','persontypes'));
   }
@@ -103,12 +112,17 @@ class PlanController extends AdminBaseController
   public function update(Plan $plan, UpdatePlanRequest $request)
   {
     $data=$request->all();
+    $data['created_at']=\Carbon\Carbon::parse($data['created_at']);
+
+    if(isset($data['options']['videos']))
+      $data['options']['videos']=json_encode($data['options']['videos']);
     foreach(\LaravelLocalization::getSupportedLocales() as $locale => $language){
       $data['slug']=str_slug($data[$locale]['title'],"-");
       break;
     }
     $mainimage=$data['mainimage'];
     unset($data['mainimage']);
+    $data['maindocument']=$request->file('maindocument');
     $plan->update($data);
     $data['mainimage']=$mainimage;
     $data['prices']=json_decode($data['prices']);

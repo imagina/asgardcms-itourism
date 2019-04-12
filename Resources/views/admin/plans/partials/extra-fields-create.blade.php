@@ -12,7 +12,7 @@
     <div class="box-body ">
       <div class="row">
 
-        <div class="col-xs-4">
+        <div class="col-xs-3 text-center">
           <div class="box">
             <div class="box-header">
               <div class="form-group">
@@ -31,7 +31,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-3 text-center">
           <div class="box">
             <div class="box-header">
               <div class="form-group">
@@ -50,7 +50,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-3">
+        <div class="col-xs-2 text-center">
           <div class="box">
             <div class="box-header">
               <div class="form-group">
@@ -63,10 +63,32 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-1">
-          <button onclick="createCombination()" type="button" class="btn btn-success" name="button">
-            <i class="fa fa-plus"></i>
-          </button>
+        <div class="col-xs-2 text-center">
+          <div class="box">
+            <div class="box-header">
+              <div class="form-group">
+                <label>{{ trans('itourism::planprices.table.aditional night price') }}</label>
+              </div>
+            </div>
+            <div class="box-body">
+              <input type="number" style="text-align:center;" required class="form-control" id="nightPrice" step="0.01" min="1" value="1" >
+              <br>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-2 text-center">
+          <div class="box">
+            <div class="box-header">
+              <div class="form-group">
+                <label>{{ trans('core::core.table.actions') }}</label>
+              </div>
+            </div>
+            <div class="box-body">
+              <button onclick="createCombination()" type="button" class="btn btn-success" name="button">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
         </div>
         <div class="col-xs-12">
           <div class="box">
@@ -82,6 +104,7 @@
                     <th>{{ trans('itourism::common.table.room type') }}</th>
                     <th>{{ trans('itourism::common.table.person type') }}</th>
                     <th>{{ trans('itourism::common.table.price') }}</th>
+                    <th>{{ trans('itourism::planprices.table.aditional night price') }}</th>
                     <th>{{ trans('core::core.table.actions') }}</th>
                   </tr>
                 </thead>

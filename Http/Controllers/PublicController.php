@@ -43,9 +43,8 @@ class PublicController extends BasePublicController
       $ttpl = 'itourism.show';
       if (view()->exists($ttpl))
         $tpl = $ttpl;
-      // $plan=new PlanTransformer($plan);
-      // dd($plan);
-      Return view($tpl, compact('plan'));
+      $plans=$this->plans->randomOrder($plan->id);
+      Return view($tpl, compact('plan','plans'));
     }//show
 
 }

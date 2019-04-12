@@ -6,11 +6,23 @@
   </div>
   <div class='form-group{{ $errors->has("{$lang}.description") ? ' has-error' : '' }}'>
     @editor('description', trans('itourism::persontypes.form.description'), old("{$lang}.description"), $lang)
-    {{--
-      {!! Form::label("{$lang}[description]", trans('itourism::persontypes.form.description')) !!}
-      {!! Form::text("{$lang}[description]", old("{$lang}.description"), ['class' => 'form-control', 'data-slug' => 'source', 'placeholder' => trans('itourism::persontypes.form.description')]) !!}
-      {!! $errors->first("{$lang}.description", '<span class="help-block">:message</span>') !!}
-      --}}
+    {!! $errors->first("{$lang}.description", '<span class="help-block">:message</span>') !!}
+  </div>
+  <div class='form-group{{ $errors->has("{$lang}.includes") ? ' has-error' : '' }}'>
+    @editor('includes', trans('itourism::plans.form.include'), old("{$lang}.includes"), $lang)
+    {!! $errors->first("{$lang}.includes", '<span class="help-block">:message</span>') !!}
+  </div>
+  <div class='form-group{{ $errors->has("{$lang}.notincludes") ? ' has-error' : '' }}'>
+    @editor('notincludes', trans('itourism::plans.form.notincludes'), old("{$lang}.notincludes"), $lang)
+    {!! $errors->first("{$lang}.notincludes", '<span class="help-block">:message</span>') !!}
+  </div>
+  <div class='form-group{{ $errors->has("{$lang}.notes") ? ' has-error' : '' }}'>
+    @editor('notes', trans('itourism::plans.form.notes'), old("{$lang}.notes"), $lang)
+    {!! $errors->first("{$lang}.notes", '<span class="help-block">:message</span>') !!}
+  </div>
+  <div class='form-group{{ $errors->has("{$lang}.payforms") ? ' has-error' : '' }}'>
+    @editor('payforms', trans('itourism::plans.form.payforms'), old("{$lang}.payforms"), $lang)
+    {!! $errors->first("{$lang}.payforms", '<span class="help-block">:message</span>') !!}
   </div>
   <div class="col-xs-12" style="padding-top: 35px;">
       <div class="panel box box-primary">

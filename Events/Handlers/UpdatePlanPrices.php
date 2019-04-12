@@ -21,15 +21,16 @@ class UpdatePlanPrices
         $newPlans=[];
         foreach($pricesPlan as $price){
           /*
-            Recibe precios nuevos.
-            Recorre todos los precios registrados
-              Si encuentra el planprice,actualiza el precio.
-              Sino, lo encuentra fue eliminado.
+          Receive new prices
+                      Scroll through all registered prices
+                        If you find the planprice, update the price.
+                        But, find it was eliminated.
           */
           $b=0;
           foreach($prices as $priceToUpdate){
             if($price->room_type_id==$priceToUpdate->roomType && $price->persontype_id==$priceToUpdate->personType){
               $price->price=$priceToUpdate->price;
+              $price->additional_night_price=$priceToUpdate->nightPrice;
               $price->update();
               $b=1;
               break;
@@ -38,7 +39,7 @@ class UpdatePlanPrices
           if($b==0)
             $price->delete();
         }//Prices registered
-        //Recorre todos los precios nuevos, si consigue uno nuevo lo crea.
+        //Go through all the new prices, if you get a new one, create it.
         foreach($prices as $priceToUpdate){
           $b=0;
           foreach($pricesPlan as $price){
@@ -52,7 +53,9 @@ class UpdatePlanPrices
               'plan_id'=>$id,
               'roomtype_id'=>$priceToUpdate->roomType,
               'persontype_id'=>$priceToUpdate->personType,
-              'price'=>$priceToUpdate->price
+              'price'=>$priceToUpdate->price,
+              'additional_night_price'=>$priceToUpdate->nightPrice,
+
             ]);
           }
         }//foreach prices to update

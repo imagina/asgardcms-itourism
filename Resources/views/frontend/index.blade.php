@@ -7,6 +7,20 @@
 @section('content')
 
     <div id="layout-tourism" class="page blog-category-tourism">
+
+        <div class="banner">
+            <div class="container">
+                <div class="row justify-content-start align-items-end">
+                    <div class="col-lg-5">
+                        <div class="text-white my-0">
+                            ¿Ya planeaste
+                            tu próximo destino?
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
             <div class="row justify-content-end mb-5">
                 <div class="col-auto">

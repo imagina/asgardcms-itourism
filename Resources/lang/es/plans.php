@@ -12,15 +12,32 @@ return [
     ],
     'button' => [
         'create plan' => 'Crea un plan',
-        'select a plan'=>"Selecciona un plan"
+        'select a plan'=>"Selecciona un plan",
+        'image'=>'Imagen',
 
     ],
     'table' => [
     ],
     'form' => [
+      'drag'=>'Arrastra y suelta aquí',
+      'click'=>'Click para subir.',
+      'image'=>'Imagen',
+      'include'=>'Incluye',
+      'notincludes'=>'No incluye',
+      'notes'=>'Notas',
+      'payforms'=>'Formas de pago',
+      'videos'=>'Videos',
+      'document'=>'Documento'
+    ],
+    'gallery'=>[
+      'title'=>'Galería',
+      'ready'=>'Listo',
+      'delete'=>'Eliminar',
+      'add gallery'=>'Agregar galería',
     ],
     'messages' => [
     ],
     'validation' => [
+      'error some roomtype and persontype'=>'Debes tener registrado al menos un tipo de habitación y un tipo de persona',
     ],
 ];

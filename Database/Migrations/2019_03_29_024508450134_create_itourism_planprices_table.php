@@ -22,6 +22,7 @@ class CreateItourismPlanPricesTable extends Migration
             $table->integer('persontype_id')->unsigned();
             $table->foreign('persontype_id')->references('id')->on('itourism__persontypes')->onDelete('cascade');
             $table->double('price', 30, 2)->default(0);
+            $table->double('additional_night_price', 30, 2)->default(0);
             $table->timestamps();
         });
     }

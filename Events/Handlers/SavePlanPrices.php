@@ -28,7 +28,8 @@ class SavePlanPrices
               'plan_id'=>$id,
               'roomtype_id'=>$price->personType,
               'persontype_id'=>$price->roomType,
-              'price'=>$price->price
+              'price'=>$price->price,
+              'additional_night_price'=>$price->nightPrice,
             ]
           );
         }
