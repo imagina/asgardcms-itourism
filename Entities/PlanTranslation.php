@@ -13,7 +13,8 @@ class PlanTranslation extends Model
       'includes',
       'notincludes',
       'payforms',
-      'description'
+      'description',
+      'slug'
     ];
     protected $table = 'itourism__plan_translations';
 }

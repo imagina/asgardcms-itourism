@@ -26,7 +26,7 @@ class PublicController extends BasePublicController
      */
     public function index(Request $request)
     {
-        $plans=$this->plans->paginate();
+        $plans=$this->plans->paginate(12);
         $tpl = 'itourism::frontend.index';
         $ttpl = 'itourism.index';
         if (view()->exists($ttpl))

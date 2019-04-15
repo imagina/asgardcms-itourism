@@ -1,11 +1,11 @@
 <div id="image">
     <div class="bgimg-profile">
 
-        @if(isset($entity) && !empty(json_decode($entity->options)->mainimage))
+        @if(isset($entity) && !empty($entity->mainImage))
             <img id="mainImage"
                  class="image profile-user-img  img-responsive"
                  width="100%"
-                 src="{{url(json_decode($entity->options)->mainimage)}}"/>
+                 src="{{url($entity->mainImage)}}"/>
         @else
             <img id="mainImage"
                  class="image profile-user-img img-responsive"

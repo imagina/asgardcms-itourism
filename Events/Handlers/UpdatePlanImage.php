@@ -19,27 +19,26 @@ class UpdatePlanImage
         $options=(array)$event->data['options'];
         if (!empty($event->data['mainimage'])) {
             $mainimage = saveImage($event->data['mainimage'], "assets/itourism/plan/" . $id . ".jpg");
-            if(isset($event->data['options'])){
-                $options=(array)$event->data['options'];
-            }else{
-                $options = array();
-            }
+            // if(isset($event->data['options'])){
+            //     $options=(array)$event->data['options'];
+            // }else{
+            //     $options = array();
+            // }
             $options["mainimage"] = $mainimage;
-        }else{
-            $options["mainimage"] = null;
-        }
-        if($event->data['maindocument']){
+            unset($event->data['mainimage']);
+        }//mainimage
+        if(isset($event->data['maindocument']) && $event->data['maindocument']){
           $p=Storage::disk('publicmedia')->put("assets/itourism/plan/" . $id . ".pdf", \File::get($event->data['maindocument']));
-          if($p){
+          if($p)
             $p="assets/itourism/plan/" . $id . ".pdf";
-          }else{
+          else
             $p=null;
-          }
           $options["document"] = $p;
-        }
-        $event->data['options'] = json_encode($options);
-        unset($event->data['mainimage']);
-        unset($event->data['maindocument']);
+          unset($event->data['maindocument']);
+        }//isset maindocument
+        else if(isset($event->data['oldOptions']->document))
+          $options["document"] = $event->data['oldOptions']->document;
+        $event->data['options'] = $options;
         $update=$this->plan->update($event->entity, $event->data);
     }
 

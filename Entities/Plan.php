@@ -19,50 +19,60 @@ class Plan extends Model
       'notes',
       'includes',
       'notincludes',
-      'payforms'
+      'payforms',
+      'slug'
     ];
     protected $fillable = [
       'created_at',
-      'options',
-      'slug'
+      'options'
     ];
     protected $fakeColumns = ['options'];
     protected $casts = [
         'options' => 'array'
     ];
-
-    public function getGalleryAttribute(){
-        $images = \Storage::disk('publicmedia')->files('assets/itourism/plan/gallery/' . $this->id);
-        return $images;
-    }
-    public function getMainImageAttribute(){
-        return json_decode($this->options)->mainimage;
-    }
-    public function getDocumentAttribute(){
-        $options=json_decode($this->options);
-        if(isset($options->document)){
-          return json_decode($this->options)->document;
-        }
-        return null;
-    }
-
-    public function getUrlAttribute() {
-        return \URL::route('itourism.plans.show', [$this->slug]);
-
-    }
+    //Relations
 
     public function roomPrice(){
       return $this->hasMany('Modules\Itourism\Entities\PlanPrice','plan_id');//Foreign key
     }
 
+    //Attributes
+
+    public function getOptionsAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getGalleryAttribute(){
+        $images = \Storage::disk('publicmedia')->files('assets/itourism/plan/gallery/' . $this->id);
+        return $images;
+    }
+
+    public function getMainImageAttribute(){
+        $options=$this->options;
+        if(isset($options->mainimage)){
+          return $options->mainimage;
+        }
+        return null;
+    }//getMainImageAttribute
+
+    public function getDocumentAttribute(){
+        $options=$this->options;
+        if(isset($options->document)){
+          return $options->document;
+        }
+        return null;
+    }//getDocumentAttribute
+
+    public function getUrlAttribute() {
+        return \URL::route('itourism.plans.show', [$this->slug]);
+    }//getUrlAttribute
+
     public function getVideosAttribute(){
-
-        if (isset(json_decode($this->options)->videos)&&!empty(json_decode($this->options)->videos)){
-
-            $videos = explode(',',json_decode($this->options)->videos);
-
+        if (isset($this->options->videos)&&!empty($this->options->videos)){
+            $videos = explode(',',$this->options->videos);
             return $videos;
         }
         return null;
-    }
+    }//getVideosAttribute()
 }

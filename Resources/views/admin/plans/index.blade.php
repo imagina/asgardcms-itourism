@@ -30,6 +30,7 @@
             <thead>
               <tr>
                 <th>{{trans('itourism::persontypes.form.title')}}</th>
+                <th>{{trans('itourism::plans.form.slug')}}</th>
                 <th>{{ trans('core::core.table.created at') }}</th>
                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
               </tr>
@@ -40,6 +41,9 @@
                   <tr>
                     <td>
                       {{$plan->title}}
+                    </td>
+                    <td>
+                      {{$plan->slug}}
                     </td>
                     <td>
                       <a href="{{ route('admin.itourism.plan.edit', [$plan->id]) }}">
@@ -59,6 +63,7 @@
             <tfoot>
               <tr>
                 <th>{{trans('itourism::persontypes.form.title')}}</th>
+                <th>{{trans('itourism::plans.form.slug')}}</th>
                 <th>{{ trans('core::core.table.created at') }}</th>
                 <th>{{ trans('core::core.table.actions') }}</th>
               </tr>

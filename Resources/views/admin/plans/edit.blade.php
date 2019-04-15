@@ -121,7 +121,7 @@
               <label for="options[videos]"><strong>{{trans('itourism::plans.form.videos')}}</strong></label>
             </div>
             <div class="box-body text-center">
-              <textarea id="options" class="form-control" name="options[videos]" rows="8">{{json_decode($plan->options)->videos ?? ''}}</textarea>
+              <textarea id="options" class="form-control" name="options[videos]" rows="8">{{$plan->options->videos ?? ''}}</textarea>
             </div>
           </div>
 

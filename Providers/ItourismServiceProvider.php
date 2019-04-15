@@ -44,6 +44,7 @@ class ItourismServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishConfig('itourism', 'permissions');
+        $this->publishConfig('itourism', 'config');
 
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }

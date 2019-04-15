@@ -16,7 +16,7 @@ class UpdatePlanPrices
     public function handle(PlanWasUpdated $event)
     {
         $id = $event->entity->id;
-        $prices=json_decode(json_encode($event->data['prices']));
+        $prices=json_decode(json_encode(json_decode($event->data['prices'])));
         $pricesPlan=PlanPrice::where('plan_id',$id)->get();
         $newPlans=[];
         foreach($pricesPlan as $price){

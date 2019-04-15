@@ -111,7 +111,7 @@ Dropzone.options.{{$field['name']}}Dropzone = {
   previewsContainer: '#{{$field['name']}}Preview',
   previewTemplate: document.querySelector('#preview-template-{{$field['name']}}').innerHTML,
   addRemoveLinks: true,
-  dictRemoveFile: "{{ trans('itourism::plans.gallery.title') }}",
+  dictRemoveFile: "{{ trans('itourism::plans.gallery.delete') }}",
   dictFileTooBig: 'Imagen no mayor a 8MB',
   acceptedFiles: '.png,.jpg,.gif,.bmp,.jpeg',
   // The setting up of the dropzone

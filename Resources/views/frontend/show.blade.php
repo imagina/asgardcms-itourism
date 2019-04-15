@@ -1,27 +1,25 @@
 @extends('layouts.master')
 
 @section('meta')
-<!-- Schema.org Google+ -->
-
-<meta itemprop="name"
-content="{{$plan->title}}">
-<!-- Open Graph Facebook-->
-<meta property="og:title"
-content="{{$plan->title}}"/>
+<meta name="description" content="{!! $plan->metadescription ?? '' !!}">
+<!-- Schema.org para Google+ -->
+<meta itemprop="name" content="{{$plan->metatitle}}">
+<meta itemprop="description" content="{{ $plan->metadescription }}">
+<meta itemprop="image" content="{{url($plan->mainimage ?? 'modules/itourism/img/product/default.jpg')}}">
+<!-- Open Graph para Facebook-->
+<meta property="og:title" content="{{$plan->metatilte}}"/>
 <meta property="og:url" content="{{url($plan->slug)}}"/>
-<meta property="og:image"
-content="{{url(json_decode($plan->options)->mainimage ?? 'modules/itourism/img/product/default.jpg')}}"/>
-<meta property="og:description"
-<meta property="og:site_name" content="{{Setting::get('core::site-name') }}"/>
-<meta property="og:locale" content="{{config('asgard.iblog.config.oglocal')}}">
+<meta property="og:image" content="{{url($plan->mainimage ?? 'modules/itourism/img/product/default.jpg')}}"/>
+<meta property="og:description" content="{!! $plan->metadescription !!}"/>
+<meta property="og:site_name" content="{{ Setting::get('core::site-name') }}"/>
+<meta property="og:locale" content="{{locale().'_CO'}}">
 <!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="metadescription_large_image">
 <meta name="twitter:site" content="{{ Setting::get('core::site-name') }}">
-<meta name="twitter:title"
-content="{{$plan->title}}">
+<meta name="twitter:title" content="{{$plan->metatitle}}">
+<meta name="twitter:description" content="{{$plan->metadescription }}">
 <meta name="twitter:creator" content="">
-<meta name="twitter:image:src"
-content="{{url(json_decode($plan->options)->mainimage ?? 'modules/itourism/img/product/default.jpg')}}">
+<meta name="twitter:image:src" content="{{url($plan->mainimage ?? 'modules/itourism/img/product/default.jpg')}}">
 @stop
 
 @section('title')
@@ -64,7 +62,7 @@ content="{{url(json_decode($plan->options)->mainimage ?? 'modules/itourism/img/p
           @include('itourism::frontend.widgets.gallery-images')
           @else
           @if(isset($plan->mainImage) && $plan->mainImage)
-          <img class="img-fluid w-100" src="{{url(json_decode($plan->options)->mainimage)}}">
+          <img class="img-fluid w-100" src="{{url($plan->mainimage)}}">
           @else
           <img class="cover-img" src="{{url('modules/itourism/img/default.jpg')}}"
           alt="{{$plan->title}}"/>
@@ -137,7 +135,7 @@ content="{{url(json_decode($plan->options)->mainimage ?? 'modules/itourism/img/p
         </div>
         @endif
 
-        @include('itourism::frontend.widgets.compartir',array('url'=>$plan->url))
+        @include('itourism::frontend.widgets.share',array('url'=>$plan->url))
 
         <div class="facebook-comments">
           <div class="fb-comments"
@@ -196,8 +194,4 @@ content="{{url(json_decode($plan->options)->mainimage ?? 'modules/itourism/img/p
 <script type="text/javascript">
 /*console.log('now');*/
 </script>
-
-
-
-
 @stop

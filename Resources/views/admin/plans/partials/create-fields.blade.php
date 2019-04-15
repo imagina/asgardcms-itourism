@@ -4,6 +4,11 @@
       {!! Form::text("{$lang}[title]", old("{$lang}.title"), ['class' => 'form-control', 'data-slug' => 'source', 'placeholder' => trans('itourism::persontypes.form.title')]) !!}
       {!! $errors->first("{$lang}.title", '<span class="help-block">:message</span>') !!}
   </div>
+  <div class='form-group{{ $errors->has("{$lang}.slug") ? ' has-error' : '' }}'>
+      {!! Form::label("{$lang}[slug]", trans('itourism::plans.form.slug')) !!}
+      {!! Form::text("{$lang}[slug]", old("{$lang}.slug"), ['class' => 'form-control slug', 'data-slug' => 'target', 'placeholder' => trans('itourism::plans.form.slug')]) !!}
+      {!! $errors->first("{$lang}.slug", '<span class="help-block">:message</span>') !!}
+  </div>
   <div class='form-group{{ $errors->has("{$lang}.description") ? ' has-error' : '' }}'>
     @editor('description', trans('itourism::persontypes.form.description'), old("{$lang}.description"), $lang)
     {!! $errors->first("{$lang}.description", '<span class="help-block">:message</span>') !!}

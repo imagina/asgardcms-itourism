@@ -73,7 +73,7 @@
                                     </a>
                                 </div>
                                 <h3 class="place-title text-center text-gray-dark my-3">
-                                    <a href="{{url('itourism/'.$plan->slug)}}">
+                                    <a href="{{$plan->url}}">
                                         {{$plan->title}}
                                     </a>
                                 </h3>

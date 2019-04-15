@@ -16,6 +16,7 @@ class UpdatePlanRequest extends BaseFormRequest
         return [
           'title'=>'min:2',
           'description'=>'min:2',
+          'slug'=>'required|min:2',
         ];
     }
 

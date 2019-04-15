@@ -18,31 +18,23 @@ class SavePlanImage
         $options = array();
         if (!empty($event->data['mainimage'])) {
             $mainimage = saveImage($event->data['mainimage'], "assets/itourism/plan/" . $id . ".jpg");
-            if(isset($event->data['options'])){
+            if(isset($event->data['options']))
                 $options=(array)$event->data['options'];
-            }else{
-                $options = array();
-            }
             $options["mainimage"] = $mainimage;
-            $event->data['options'] = json_encode($options);
-        }else{
-            $options["mainimage"] = null;
-            $event->data['options'] = json_encode($options);
-        }
-        if ($event->data['maindocument']) {
-            $p=Storage::disk('publicmedia')->put("assets/itourism/plan/" . $id . ".pdf", \File::get($event->data['maindocument']));
-            if($p){
-              $p="assets/itourism/plan/" . $id . ".pdf";
-            }else{
-              $p=null;
-            }
-            $options["document"] = $p;
-        }else{
-            $options["document"] = null;
-        }
-        $event->data['options'] = json_encode($options);
-        unset($event->data['mainimage']);
-        unset($event->data['maindocument']);
+            unset($event->data['mainimage']);
+        }//isset mainimage
+        if (isset($event->data['maindocument'])) {
+            if ($event->data['maindocument']) {
+              $p=Storage::disk('publicmedia')->put("assets/itourism/plan/" . $id . ".pdf", \File::get($event->data['maindocument']));
+              if($p)
+                $p="assets/itourism/plan/" . $id . ".pdf";
+              else
+                $p=null;
+              $options["document"] = $p;
+              unset($event->data['maindocument']);
+            }//if ($event->data['maindocument'])
+        }//isset maindocument
+        $event->data['options'] = $options;
 
         if (!empty($event->data['gallery']) && !empty($id)) {
             if (count(\Storage::disk('publicmedia')->files('assets/itourism/plan/gallery/' . $event->data['gallery']))) {
@@ -50,7 +42,7 @@ class SavePlanImage
                 $success = rename('assets/itourism/plan/gallery/' . $event->data['gallery'], 'assets/itourism/plan/gallery/' . $id);
             }
         }
-
+        //dd($event->data,$id,$event->entity);
         $this->plan->update($event->entity, $event->data);
     }
 

@@ -20,18 +20,20 @@ class SavePlanPrices
     public function handle(PlanWasCreated $event)
     {
         $id = $event->entity->id;
-        $prices=$event->data['prices'];
-        foreach($prices as $price){
-
-          $this->planprice->create(
-            [
-              'plan_id'=>$id,
-              'roomtype_id'=>$price->personType,
-              'persontype_id'=>$price->roomType,
-              'price'=>$price->price,
-              'additional_night_price'=>$price->nightPrice,
-            ]
-          );
+        if($event->data['prices']!=null){
+          $prices=json_decode($event->data['prices']);
+          $prices=json_decode(json_encode($prices));
+          foreach($prices as $price){
+            $this->planprice->create(
+              [
+                'plan_id'=>$id,
+                'roomtype_id'=>$price->roomType,
+                'persontype_id'=>$price->personType,
+                'price'=>$price->price,
+                'additional_night_price'=>$price->nightPrice,
+              ]
+            );
+          }//foreach prices
         }
     }
 

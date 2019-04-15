@@ -19,6 +19,7 @@ return [
     'table' => [
     ],
     'form' => [
+      'slug'=>'Slug',
       'drag'=>'Drag and drop here',
       'click'=>'click to upload.',
       'image'=>'Image',

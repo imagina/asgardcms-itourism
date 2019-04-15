@@ -19,6 +19,7 @@ return [
     'table' => [
     ],
     'form' => [
+      'slug'=>'Slug',
       'drag'=>'Arrastra y suelta aquí',
       'click'=>'Click para subir.',
       'image'=>'Imagen',

@@ -6,4 +6,6 @@ use Modules\Core\Repositories\BaseRepository;
 
 interface PlanRepository extends BaseRepository
 {
+  public function create($data);
+
 }

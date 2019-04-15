@@ -17,6 +17,11 @@ class CreateItourismPlanTranslationsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description');
+            $table->string('slug');
+            $table->text('includes')->default('')->nullable();
+            $table->text('notincludes')->default('')->nullable();
+            $table->text('notes')->default('')->nullable();
+            $table->text('payforms')->default('')->nullable();
             $table->string('metatitle')->nullable();
             $table->text('metakeywords')->nullable();
             $table->text('metadescription')->nullable();

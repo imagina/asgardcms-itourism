@@ -66,15 +66,6 @@ class PlanController extends AdminBaseController
   public function store(CreatePlanRequest $request)
   {
     $data=$request->all();
-    if(isset($data['options']['videos']))
-      $data['options']['videos']=json_encode($data['options']['videos']);
-    $data['prices']=json_decode($data['prices']);
-    foreach(\LaravelLocalization::getSupportedLocales() as $locale => $language){
-      $data['slug']=str_slug($data[$locale]['title'],"-");
-      break;
-    }
-    $file = $request->file('maindocument');
-    $data['maindocument']=$request->file('maindocument');
     $this->plan->create($data);
 
     return redirect()->route('admin.itourism.plan.index')
@@ -89,6 +80,7 @@ class PlanController extends AdminBaseController
   */
   public function edit(Plan $plan)
   {
+    // dd($plan);
     $roomtypes = $this->roomtypes->all();
     $persontypes = $this->persontypes->all();
     $roomPrices=$plan->roomPrice;
@@ -113,20 +105,31 @@ class PlanController extends AdminBaseController
   {
     $data=$request->all();
     $data['created_at']=\Carbon\Carbon::parse($data['created_at']);
-
-    if(isset($data['options']['videos']))
-      $data['options']['videos']=json_encode($data['options']['videos']);
-    foreach(\LaravelLocalization::getSupportedLocales() as $locale => $language){
-      $data['slug']=str_slug($data[$locale]['title'],"-");
-      break;
-    }
-    $mainimage=$data['mainimage'];
-    unset($data['mainimage']);
-    $data['maindocument']=$request->file('maindocument');
+    $data['oldOptions']=$plan->options;
+    /*
+    array:8 [▼
+      "_method" => "PUT"
+      "_token" => "2l5AZn1tqkJYoynFruL9F5t4mObJr8mgeUh287kl"
+      "es" => array:10 [▶]
+      "prices" => "[{"id":2,"plan_id":"4","roomtype_id":"1","persontype_id":"1","price":"5313.00","additional_night_price":"1.00","created_at":"2019-04-15 01:59:25","updated_at":" ▶"
+      "mainimage" => "assets/itourism/plan/4.jpg"
+      "options" => array:1 [▼
+        "videos" => "https://www.youtube.com/watch?v=omox9IUdHEo"
+      ]
+      "created_at" => Carbon @1555293562 {#1264 ▶}
+      "oldOptions" => {#1253 ▼
+        +"videos": "https://www.youtube.com/watch?v=omox9IUdHEo"
+        +"mainimage": "assets/itourism/plan/4.jpg"
+        +"document": "assets/itourism/plan/4.pdf"
+      }
+    */
+    // $mainimage=$data['mainimage'];
+    // unset($data['mainimage']);
+    // dd($data);
     $plan->update($data);
-    $data['mainimage']=$mainimage;
-    $data['prices']=json_decode($data['prices']);
+    // $data['mainimage']=$mainimage;
     event(new PlanWasUpdated($plan, $data));
+
     return redirect()->route('admin.itourism.plan.index')
     ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('itourism::plans.title.plans')]));
   }
@@ -162,20 +165,17 @@ class PlanController extends AdminBaseController
       $name = str_slug(str_replace('.' . $extension, '', $original_filename), '-');
 
 
-      $image->resize(config('asgard.iblog.config.imagesize.width'), config('asgard.iblog.config.imagesize.height'), function ($constraint) {
+      $image->resize(config('asgard.itourism.config.imagesize.width'), config('asgard.itourism.config.imagesize.height'), function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
       });
 
-      if (config('asgard.iblog.config.watermark.activated')) {
-          $image->insert(config('asgard.iblog.config.watermark.url'), config('asgard.iblog.config.watermark.position'), config('asgard.iblog.config.watermark.x'), config('asgard.iblog.config.watermark.y'));
-      }
       $nameimag = $name . '.' . $extension;
       $destination_path = 'assets/itourism/plan/gallery/' . $idpost . '/' . $nameimag;
 
       \Storage::disk($disk)->put($destination_path, $image->stream($extension, '100'));
 
-      return array('direccion' => $destination_path);
+      return array('dir' => $destination_path);
   }
 
   public function deleteGalleryimage(Request $request)

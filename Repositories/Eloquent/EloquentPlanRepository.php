@@ -14,14 +14,13 @@ class EloquentPlanRepository extends EloquentBaseRepository implements PlanRepos
     $mainimage=$data['mainimage'];
 
     unset($data['mainimage']);
-
     $plan = $this->model->create($data);
 
     $data['mainimage']=$mainimage;
 
     event(new PlanWasCreated($plan, $data));
 
-    return $this->find($plan->id);
+    return $this->model->find($plan->id);
   }//create
 
   public function randomOrder($exclude){
